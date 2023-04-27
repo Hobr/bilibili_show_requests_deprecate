@@ -10,6 +10,6 @@ Bilibili会员购抢票助手，通过B站接口抢购目标漫展/演出
 git clone https://github.com/Hobr/Bilibili_show_ticket_order.git
 cd Bilibili_show_ticket_order
 mv config_example.json config.json
-pip install -s requests
+pip install -s requests selenium
 python script.py
 ```
