@@ -57,7 +57,7 @@ def status(response):
 def flow():
     # 0 登录
     while globalStep < 7:
-        time.sleep(random.uniform(0.3, 1))
+        time.sleep(random.uniform(0.3, 0.5) * config["process"])
         if globalStep == 0:
             # 1 获取信息
             # 获取 screen_id sku_id
