@@ -22,9 +22,9 @@ if config["init"] == 0:
     config["cookie"] = WebDriver.get_cookies()
     WebDriver.quit()
     print("cookie已保存")
-    print("接下来选择场次, 必须输入准确, 不差一字, 前后无空格, 价格必须为按钮上括号里的文字, 否则无法识别!")
-    config["screen_name"] = input("请输入场次并按回车继续, 格式例如 2023-05-02 周二\n")
-    config["sku_name"] = input("请输入价格并按回车继续, 格式例如 预售票\n")
+    print("接下来输入场次和价格的横向顺序, 输入数字, 例如第一个场次和第一个价格即为 1 1")
+    config["screennum"] = int(input("请输入场次顺序并按回车继续, 格式例如 1\n"))
+    config["skunum"] = int(input("请输入价格顺序并按回车继续, 格式例如 1\n"))
     config["url"] = input(
         "请输入购票链接并按回车继续, 格式例如 https://show.bilibili.com/platform/detail.html?id=72320\n"
     )
@@ -60,9 +60,12 @@ def flow():
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 1)
     data = json.loads(response.json())
-    ## TODO 筛选场次价格 TODO
-    config["screen_id"] = int(data["data"]["screen_list"]["id"][0])
-    config["sku_id"] = int(data["data"]["screen_list"]["ticket_list"]["id"][0])
+    config["screen_id"] = int(data["data"]["screen_list"][config["screennum"] -
+                                                          1]["id"])
+    config["sku_id"] = int(
+        data["data"]["screen_list"][config["screennum"] -
+                                    1]["ticket_list"][config["skunum"] -
+                                                      1]["id"])
     # 2 Token获取
     # 需要 count project_id screen_id sku_id
     # 获取 token
@@ -92,7 +95,7 @@ def flow():
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 3)
     data = json.loads(response.json())
-    config["pay_money"] = int(data["data"]["data"]["pay_money"])
+    config["pay_money"] = int(data["data"]["pay_money"])
     # 4 付款人
     # 需要 project_id
     # 获取 buyer
@@ -102,9 +105,9 @@ def flow():
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 4)
     data = json.loads(response.json())
-    ## TODO 给每个人都添加 TODO
-    data["data"]["list"]["isBuyerInfoVerified"] = True
-    data["data"]["list"]["isBuyerValid"] = True
+    ## TODO 给每个人都添加 对应人数-1 TODO
+    data["data"]["list"][0]["isBuyerInfoVerified"] = True
+    data["data"]["list"][0]["isBuyerValid"] = True
     config["buyer"] = data["data"]["list"]
     # 5 创建订单
     # 需要 buyer count pay_money project_id screen_id sku_id token
