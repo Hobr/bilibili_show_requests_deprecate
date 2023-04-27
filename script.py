@@ -7,20 +7,27 @@ globalStep = 0
 with open("./config.json", "r") as f:
     config = json.load(f)
 
-# Cookie初始化
-if len(config["cookie"]) == 0:
-    print("cookies未设置,请手动登录一次")
+# 初始化
+if config["init"] == 0:
+    print("未配置, 首先请动手登录一次B站, 登录完成后请按回车继续")
     from selenium import webdriver
     from selenium.webdriver.common.by import By
     WebDriver = webdriver.Chrome()
     WebDriver.get("https://show.bilibili.com/platform/home.html")
     WebDriver.find_element(By.CLASS_NAME, "nav-header-register").click()
-    input("登录完成后请按任意键继续\n")
+    input("登录完成后请按回车继续\n")
     config["cookie"] = WebDriver.get_cookies()
     WebDriver.quit()
+    print("cookie已保存")
+    config["url"] = input(
+        "请输入购票链接并按回车继续, 格式例如 https://show.bilibili.com/platform/detail.html?id=72320\n"
+    )
+    config["count"] = input("请输入购票数量并按回车继续, 如 1\n")
+    config["process"] = input("请输入计划使用的进程数并按回车继续，如 1\n")
+    print("初始化成功\n")
+    config["init"] = 1
     with open("./config.json", "w") as f:
         json.dump(config, f, indent=4)
-    print("cookie已保存")
 
 
 # 状态

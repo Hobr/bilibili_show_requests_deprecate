@@ -10,7 +10,9 @@ Bilibili会员购抢票助手，通过B站接口抢购目标漫展/演出
 
 请先安装[Chrome浏览器](https://www.google.com/chrome/)，然后在[Release页面](https://github.com/Hobr/Bilibili_show_ticket_order/releases)下载预装运行环境的包
 
-解压后进入目录，点击**run.cmd**运行
+解压后进入目录，点击**run.cmd**运行，根据提示输入信息即可
+
+如果要购买多张票，必须提前设置好相应数量的购票人信息
 
 ### 命令行
 
@@ -20,10 +22,3 @@ cd Bilibili_show_ticket_order
 pip install -s requests selenium
 python script.py
 ```
-
-## 提前配置
-
-- process
-- count
-- project_id
-- cookie

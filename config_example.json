@@ -1,13 +1,26 @@
 {
-    "process": 1,
-    "count": "1",
-    "project_id": "",
-    "screen_id": "",
-    "sku_id": "",
+    "init": 0,
+    "url": "",
+    "process": 0,
+    "count": 0,
+    "project_id": 0,
+    "screen_id": 0,
+    "sku_id": 0,
     "token": "",
-    "pay_money": "",
+    "pay_money": 0,
     "order_token": "",
     "order_id": "",
     "buyer": [],
+    "headers": {
+        "sec-ch-ua": "\"Chromium\";v=\"112\", \"Google Chrome\";v=\"112\", \"Not:A-Brand\";v=\"99\"",
+        "DNT": "1",
+        "sec-ch-ua-mobile": "?0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "Accept": "*/*",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty"
+    },
     "cookie": []
 }
