@@ -12,7 +12,10 @@ if config["init"] == 0:
     print("未配置, 首先请动手登录一次B站, 登录完成后请按回车继续")
     from selenium import webdriver
     from selenium.webdriver.common.by import By
-    WebDriver = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument('--disable-logging')
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    WebDriver = webdriver.Chrome(options=options)
     WebDriver.get("https://show.bilibili.com/platform/home.html")
     WebDriver.find_element(By.CLASS_NAME, "nav-header-register").click()
     input("登录完成后请按回车继续\n")
@@ -22,7 +25,7 @@ if config["init"] == 0:
     config["url"] = input(
         "请输入购票链接并按回车继续, 格式例如 https://show.bilibili.com/platform/detail.html?id=72320\n"
     )
-    config["project_id"] = config["url"][50:55]
+    config["project_id"] = int(config["url"][50:55])
     config["count"] = int(input("请输入购票数量并按回车继续, 如 1\n"))
     config["process"] = int(input("请输入计划使用的进程数并按回车继续，如 1\n"))
     print("初始化成功\n")
@@ -47,7 +50,7 @@ def flow():
     # 0 登录
     # 1 获取信息
     # 获取 screen_id sku_id
-    config["project_id"] = config["url"][50:55]
+    config["project_id"] = int(config["url"][50:55])
     print("1 获取信息")
     url = "https://show.bilibili.com/api/ticket/project/get?version=134&id=" + config[
         "project_id"]
