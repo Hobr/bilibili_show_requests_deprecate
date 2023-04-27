@@ -59,9 +59,10 @@ def flow():
         "project_id"]
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 1)
-    data = response.json()
-    config["screen_id"] = data["data"]["ticket_list"]["id"]
-    config["sku_id"] = data["data"]["id"]
+    data = json.loads(response.json())
+    ## TODO 筛选场次价格 TODO
+    config["screen_id"] = int(data["data"]["screen_list"]["id"][0])
+    config["sku_id"] = int(data["data"]["screen_list"]["ticket_list"]["id"][0])
     # 2 Token获取
     # 需要 count project_id screen_id sku_id
     # 获取 token
@@ -69,7 +70,7 @@ def flow():
     url = "https://show.bilibili.com/api/ticket/order/prepare"
     payload = {
         "count": config["count"],
-        "order_type": "1",
+        "order_type": 1,
         "project_id": config["project_id"],
         "screen_id": config["screen_id"],
         "sku_id": config["sku_id"],
@@ -78,10 +79,10 @@ def flow():
     response = requests.request("POST",
                                 url,
                                 headers=config["headers"],
-                                json=payload)
+                                data=payload)
     status(response, 2)
-    data = response.json()
-    config["pay_money"] = data["data"]["pay_money"]
+    data = json.loads(response.json())
+    config["token"] = data["data"]["token"]
     # 3 下单页信息
     # 需要 token
     # 获取 pay_money
@@ -90,8 +91,8 @@ def flow():
         "token"] + "&voucher="
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 3)
-    data = response.json()
-    config["token"] = data["data"]["token"]
+    data = json.loads(response.json())
+    config["pay_money"] = int(data["data"]["data"]["pay_money"])
     # 4 付款人
     # 需要 project_id
     # 获取 buyer
@@ -100,8 +101,8 @@ def flow():
         "project_id"]
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 4)
-    data = response.json()
-    # 勾选所有人
+    data = json.loads(response.json())
+    ## TODO 给每个人都添加 TODO
     data["data"]["list"]["isBuyerInfoVerified"] = True
     data["data"]["list"]["isBuyerValid"] = True
     config["buyer"] = data["data"]["list"]
@@ -114,7 +115,7 @@ def flow():
         "buyer_info": config["buyer"],
         "count": config["count"],
         "deviceId": "4aac6f1261084849aeef4d26bb79c59e",
-        "order_type": "1",
+        "order_type": 1,
         "pay_money": config["pay_money"],
         "project_id": config["project_id"],
         "screen_id": config["screen_id"],
@@ -125,9 +126,9 @@ def flow():
     response = requests.request("POST",
                                 url,
                                 headers=config["headers"],
-                                json=payload)
+                                data=payload)
     status(response, 5)
-    data = response.json()
+    data = json.loads(response.json())
     config["order_token"] = data["data"]["token"]
     # 6 支付信息
     # 需要 order_token
@@ -137,8 +138,8 @@ def flow():
         "order_token"] + "&timestamp=" + int(round(time.time() * 1000))
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 6)
-    data = response.json()
-    config["token"] = data["data"]["order_id"]
+    data = json.loads(response.json())
+    config["order_id"] = data["data"]["order_id"]
     # 7 订单状态
     # 需要 order_id
     print("7 订单状态")
@@ -146,10 +147,11 @@ def flow():
         "order_id"] + "&timestamp=" + int(round(time.time() * 1000))
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 7)
-    data = response.json()
-    print(data["data"]["status_name"])
+    data = json.loads(response.json())
     with open("./config.json", "w") as f:
         json.dump(config, f, indent=4)
+    if data["data"]["status_name"] == "待支付":
+        exit()
 
 
 # 线程
