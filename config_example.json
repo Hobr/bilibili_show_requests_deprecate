@@ -1,6 +1,7 @@
 {
   "init": 0,
   "url": "",
+  "timeout": 0,
   "screennum": 0,
   "skunum": 0,
   "process": 0,

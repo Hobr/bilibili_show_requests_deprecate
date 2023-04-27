@@ -4,6 +4,7 @@ import time
 import random
 import os
 from shutil import copyfile
+from requests.exceptions import Timeout
 
 # 步骤
 globalStep = 0
@@ -33,6 +34,7 @@ def initConfig():
     config["screennum"] = int(input("请输入场次顺序并按回车继续, 格式例如 1\n"))
     config["skunum"] = int(input("请输入价格顺序并按回车继续, 格式例如 1\n"))
     config["count"] = int(input("请输入购票数量并按回车继续, 购票人必须提前设置且设置的人数与你填的相符, 如 1\n"))
+    config["timeout"] = int(input("请输入请求超时时间并按回车继续 如 1\n"))
     config["process"] = int(input("请输入计划使用的进程数并按回车继续 如 1\n"))
     print("初始化成功\n")
     config["init"] = 1
@@ -45,7 +47,7 @@ def status(response):
     global globalStep
     msg = response.json()
     if len(msg["msg"]) == 0:
-        print("成功")
+        print("成功\n")
         globalStep += 1
         with open("./config.json", "w") as f:
             json.dump(config, f, indent=2)
@@ -67,7 +69,10 @@ def flow():
             print("1 获取信息")
             url = "https://show.bilibili.com/api/ticket/project/get?version=134&id=" + str(
                 config["project_id"])
-            response = requests.request("GET", url, headers=config["headers"])
+            response = requests.request("GET",
+                                        url,
+                                        headers=config["headers"],
+                                        timeout=config["timeout"])
             status(response)
             data = response.json()
             try:
@@ -76,7 +81,11 @@ def flow():
                 config["sku_id"] = int(data["data"]["screen_list"][
                     config["screennum"] - 1]["ticket_list"][config["skunum"] -
                                                             1]["id"])
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
 
         elif globalStep == 1:
@@ -96,12 +105,17 @@ def flow():
             response = requests.request("POST",
                                         url,
                                         headers=config["headers"],
-                                        data=payload)
+                                        data=payload,
+                                        timeout=config["timeout"])
             status(response)
             try:
                 data = response.json()
                 config["token"] = data["data"]["token"]
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
         elif globalStep == 2:
             # 3 下单页信息
@@ -110,12 +124,19 @@ def flow():
             print("3 下单页信息")
             url = "https://show.bilibili.com/api/ticket/order/confirmInfo?token=" + config[
                 "token"] + "&voucher="
-            response = requests.request("GET", url, headers=config["headers"])
+            response = requests.request("GET",
+                                        url,
+                                        headers=config["headers"],
+                                        timeout=config["timeout"])
             status(response)
             try:
                 data = response.json()
                 config["pay_money"] = int(data["data"]["pay_money"])
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
         elif globalStep == 3:
             # 4 付款人
@@ -124,7 +145,10 @@ def flow():
             print("4 付款人")
             url = "https://show.bilibili.com/api/ticket/buyer/list?is_default&projectId=" + str(
                 config["project_id"])
-            response = requests.request("GET", url, headers=config["headers"])
+            response = requests.request("GET",
+                                        url,
+                                        headers=config["headers"],
+                                        timeout=config["timeout"])
             status(response)
             try:
                 data = response.json()
@@ -132,7 +156,11 @@ def flow():
                     data["data"]["list"][i]["isBuyerInfoVerified"] = True
                     data["data"]["list"][i]["isBuyerValid"] = True
                 config["buyer"] = data["data"]["list"]
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
         elif globalStep == 4:
             # 5 创建订单
@@ -155,12 +183,17 @@ def flow():
             response = requests.request("POST",
                                         url,
                                         headers=config["headers"],
-                                        data=payload)
+                                        data=payload,
+                                        timeout=config["timeout"])
             status(response)
             try:
                 data = response.json()
                 config["order_token"] = data["data"]["token"]
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
         elif globalStep == 5:
             # 6 支付信息
@@ -170,12 +203,19 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/order/createstatus?token=" + config[
                 "order_token"] + "&timestamp=" + str(
                     int(round(time.time() * 1000)))
-            response = requests.request("GET", url, headers=config["headers"])
+            response = requests.request("GET",
+                                        url,
+                                        headers=config["headers"],
+                                        timeout=config["timeout"])
             status(response)
             try:
                 data = response.json()
                 config["order_id"] = data["data"]["order_id"]
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
         elif globalStep == 6:
             # 7 订单状态
@@ -184,13 +224,20 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/order/info?order_id=" + config[
                 "order_id"] + "&timestamp=" + str(
                     int(round(time.time() * 1000)))
-            response = requests.request("GET", url, headers=config["headers"])
+            response = requests.request("GET",
+                                        url,
+                                        headers=config["headers"],
+                                        timeout=config["timeout"])
             status(response)
             try:
                 data = response.json()
                 if data["data"]["status_name"] == "待支付":
                     exit()
-            except:
+            except Timeout:
+                print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
+                continue
+            except Exception as e:
+                print(e)
                 continue
 
 
