@@ -98,6 +98,9 @@ def flow():
     response = requests.request("GET", url, headers=config["headers"])
     status(response, 4)
     data = response.json()
+    # 勾选所有人
+    data["data"]["list"]["isBuyerInfoVerified"] = True
+    data["data"]["list"]["isBuyerValid"] = True
     config["buyer"] = data["data"]["list"]
     # 5 创建订单
     # 需要 buyer count pay_money project_id screen_id sku_id token
