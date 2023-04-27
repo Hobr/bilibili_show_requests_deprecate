@@ -2,15 +2,17 @@ import requests
 import json
 import time
 import random
+import os
+from shutil import copyfile
+
 # 步骤
 globalStep = 0
-# 配置载入
-with open("./config.json", "r") as f:
-    config = json.load(f)
+
 
 # 初始化
-if config["init"] == 0:
-    print("未配置, 首先请动手登录一次B站, 登录完成后请按回车继续\n")
+def initConfig():
+    print("让我们配置一下脚本, 请跟随提示进行操作, 如果操作失误可按Ctrl+C退出, 然后重新进入\n")
+    print("首先请动手登录一次B站, 登录完成后请按回车继续\n")
     from selenium import webdriver
     from selenium.webdriver.common.by import By
     options = webdriver.ChromeOptions()
@@ -191,6 +193,18 @@ def flow():
             except:
                 continue
 
+
+# 配置载入
+if os.path.exists("./config.json"):
+    with open("./config.json", "r") as f:
+        config = json.load(f)
+    if config["init"] == 0:
+        initConfig()
+else:
+    copyfile("./config_example.json", "./config.json")
+    with open("./config.json", "r") as f:
+        config = json.load(f)
+    initConfig()
 
 # 线程
 if config["process"] == 1:
