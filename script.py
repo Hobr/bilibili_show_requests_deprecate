@@ -31,21 +31,25 @@ def status(response, step):
         print("成功")
         globalStep += step
     else:
-        print("失败!Status Code" + str(response.status_code))
+        print("失败! Status Code" + str(response.status_code))
 
 
 # 任务流
 def flow():
     global globalStep
     while globalStep <= 7:
+        # 0 登录
         # 1 获取信息
         # 获取 screen_id sku_id
-        # 自定义 count
+        config["project_id"] = config["url"][50:55]
         print("1 获取信息")
         url = "https://show.bilibili.com/api/ticket/project/get?version=134&id=" + config[
             "project_id"]
         response = requests.request("GET", url, headers=config["headers"])
         status(response, 1)
+        data = response.json()
+        config["screen_id"] = data["data"]["ticket_list"]["id"]
+        config["sku_id"] = data["data"]["id"]
         # 2 Token获取
         # 需要 count project_id screen_id sku_id
         # 获取 token
@@ -62,8 +66,10 @@ def flow():
         response = requests.request("POST",
                                     url,
                                     headers=config["headers"],
-                                    data=payload)
+                                    json=payload)
         status(response, 2)
+        data = response.json()
+        config["pay_money"] = data["data"]["pay_money"]
         # 3 下单页信息
         # 需要 token
         # 获取 pay_money
@@ -72,6 +78,8 @@ def flow():
             "token"] + "&voucher="
         response = requests.request("GET", url, headers=config["headers"])
         status(response, 3)
+        data = response.json()
+        config["token"] = data["data"]["token"]
         # 4 付款人
         # 需要 project_id
         # 获取 buyer
@@ -80,6 +88,8 @@ def flow():
             "project_id"]
         response = requests.request("GET", url, headers=config["headers"])
         status(response, 4)
+        data = response.json()
+        config["buyer"] = data["data"]["list"]
         # 5 创建订单
         # 需要 buyer count pay_money project_id screen_id sku_id token
         # 获取 order_token
@@ -100,8 +110,10 @@ def flow():
         response = requests.request("POST",
                                     url,
                                     headers=config["headers"],
-                                    data=payload)
+                                    json=payload)
         status(response, 5)
+        data = response.json()
+        config["order_token"] = data["data"]["token"]
         # 6 支付信息
         # 需要 order_token
         # 获取 order_id
@@ -110,6 +122,8 @@ def flow():
             "order_token"] + "&timestamp=" + int(round(time.time() * 1000))
         response = requests.request("GET", url, headers=config["headers"])
         status(response, 6)
+        data = response.json()
+        config["token"] = data["data"]["order_id"]
         # 7 订单状态
         # 需要 order_id
         print("7 订单状态")
@@ -117,6 +131,10 @@ def flow():
             "order_id"] + "&timestamp=" + int(round(time.time() * 1000))
         response = requests.request("GET", url, headers=config["headers"])
         status(response, 7)
+        data = response.json()
+        print(data["data"]["status_name"])
+        with open("./config.json", "w") as f:
+            json.dump(config, f, indent=4)
 
 
 # 线程
