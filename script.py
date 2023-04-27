@@ -22,12 +22,15 @@ if config["init"] == 0:
     config["cookie"] = WebDriver.get_cookies()
     WebDriver.quit()
     print("cookie已保存")
+    print("接下来选择场次, 必须输入准确, 不差一字, 前后无空格, 价格必须为按钮上括号里的文字, 否则无法识别!")
+    config["screen_name"] = input("请输入场次并按回车继续, 格式例如 2023-05-02 周二\n")
+    config["sku_name"] = input("请输入价格并按回车继续, 格式例如 预售票\n")
     config["url"] = input(
         "请输入购票链接并按回车继续, 格式例如 https://show.bilibili.com/platform/detail.html?id=72320\n"
     )
     config["project_id"] = int(config["url"][50:55])
     config["count"] = int(input("请输入购票数量并按回车继续, 如 1\n"))
-    config["process"] = int(input("请输入计划使用的进程数并按回车继续，如 1\n"))
+    config["process"] = int(input("请输入计划使用的进程数并按回车继续 如 1\n"))
     print("初始化成功\n")
     config["init"] = 1
     with open("./config.json", "w") as f:
