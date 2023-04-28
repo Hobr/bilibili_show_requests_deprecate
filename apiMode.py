@@ -73,6 +73,7 @@ def flow():
                    value=i["value"],
                    path=i["path"])
     session.cookies.update(cookie)
+    ## TODO 进度保存
     while globalStep < 7:
         time.sleep(random.uniform(0.3, 0.5) * config["process"])
         if globalStep == 0:
@@ -102,6 +103,7 @@ def flow():
             # 2 Token获取
             # 需要 count project_id screen_id sku_id
             # 获取 token
+            ## TODO token获取方式有必要改成原来的借其它商品获取前6位的方式, 避免访问拥堵商品造成的时间损失
             print("2 Token获取")
             url = "https://show.bilibili.com/api/ticket/order/prepare"
             payload = {
