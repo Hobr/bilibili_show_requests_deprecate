@@ -3,6 +3,7 @@ import json
 import time
 import random
 import os
+from urllib.parse import urlencode
 from shutil import copyfile
 from requests.exceptions import Timeout
 
@@ -55,11 +56,23 @@ def status(response):
         print("失败! Status Code" + " " + str(response.status_code) + " " +
               msg["msg"])
         print(response.json())
+        raise Exception(msg["msg"])
 
 
 # 任务流
 def flow():
     # 0 登录
+    session = requests.session()
+
+    session.headers.update(config["headers"])
+    session.get("https://show.bilibili.com/platform/home.html")
+    cookie = requests.cookies.RequestsCookieJar()    # type: ignore
+    for i in config["cookie"]:
+        cookie.set(domain=i["domain"],
+                   name=i["name"],
+                   value=i["value"],
+                   path=i["path"])
+    session.cookies.update(cookie)
     while globalStep < 7:
         time.sleep(random.uniform(0.3, 0.5) * config["process"])
         if globalStep == 0:
@@ -69,10 +82,9 @@ def flow():
             print("1 获取信息")
             url = "https://show.bilibili.com/api/ticket/project/get?version=134&id=" + str(
                 config["project_id"])
-            response = requests.request("GET",
-                                        url,
-                                        headers=config["headers"],
-                                        timeout=config["timeout"])
+            response = session.request("GET", url, timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             data = response.json()
             try:
@@ -102,11 +114,12 @@ def flow():
                 "sku_id": config["sku_id"],
                 "token": ""
             }
-            response = requests.request("POST",
-                                        url,
-                                        headers=config["headers"],
-                                        data=payload,
-                                        timeout=config["timeout"])
+            response = session.request("POST",
+                                       url,
+                                       data=payload,
+                                       timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
@@ -124,10 +137,9 @@ def flow():
             print("3 下单页信息")
             url = "https://show.bilibili.com/api/ticket/order/confirmInfo?token=" + config[
                 "token"] + "&voucher="
-            response = requests.request("GET",
-                                        url,
-                                        headers=config["headers"],
-                                        timeout=config["timeout"])
+            response = session.request("GET", url, timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
@@ -145,14 +157,13 @@ def flow():
             print("4 付款人")
             url = "https://show.bilibili.com/api/ticket/buyer/list?is_default&projectId=" + str(
                 config["project_id"])
-            response = requests.request("GET",
-                                        url,
-                                        headers=config["headers"],
-                                        timeout=config["timeout"])
+            response = session.request("GET", url, timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
-                for i in range(1, config["count"] + 1):
+                for i in range(0, config["count"]):
                     data["data"]["list"][i]["isBuyerInfoVerified"] = True
                     data["data"]["list"][i]["isBuyerValid"] = True
                 config["buyer"] = data["data"]["list"]
@@ -164,7 +175,7 @@ def flow():
                 continue
         elif globalStep == 4:
             # 5 创建订单
-            # 需要 buyer count pay_money project_id screen_id sku_id token
+            # 需要 buyer(urlencode) count pay_money project_id screen_id sku_id token
             # 获取 order_token
             print("5 创建订单")
             url = "https://show.bilibili.com/api/ticket/order/createV2"
@@ -180,11 +191,16 @@ def flow():
                 "timestamp": int(round(time.time() * 1000)),
                 "token": config["token"]
             }
-            response = requests.request("POST",
-                                        url,
-                                        headers=config["headers"],
-                                        data=payload,
-                                        timeout=config["timeout"])
+            ## TODO buyer
+            payload = str(
+                urlencode(payload).replace("%27", "%22").replace("+", ""))
+            print(payload)
+            response = session.request("POST",
+                                       url,
+                                       data=payload,
+                                       timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
@@ -203,10 +219,9 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/order/createstatus?token=" + config[
                 "order_token"] + "&timestamp=" + str(
                     int(round(time.time() * 1000)))
-            response = requests.request("GET",
-                                        url,
-                                        headers=config["headers"],
-                                        timeout=config["timeout"])
+            response = session.request("GET", url, timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
@@ -224,10 +239,9 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/order/info?order_id=" + config[
                 "order_id"] + "&timestamp=" + str(
                     int(round(time.time() * 1000)))
-            response = requests.request("GET",
-                                        url,
-                                        headers=config["headers"],
-                                        timeout=config["timeout"])
+            response = session.request("GET", url, timeout=config["timeout"])
+            session.headers.update(response.headers)
+            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
