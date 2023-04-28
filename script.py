@@ -83,11 +83,11 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/project/get?version=134&id=" + str(
                 config["project_id"])
             response = session.request("GET", url, timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
-            data = response.json()
             try:
+                data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 config["screen_id"] = int(
                     data["data"]["screen_list"][config["screennum"] - 1]["id"])
                 config["sku_id"] = int(data["data"]["screen_list"][
@@ -118,11 +118,11 @@ def flow():
                                        url,
                                        data=payload,
                                        timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 config["token"] = data["data"]["token"]
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -138,11 +138,11 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/order/confirmInfo?token=" + config[
                 "token"] + "&voucher="
             response = session.request("GET", url, timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 config["pay_money"] = int(data["data"]["pay_money"])
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -158,11 +158,11 @@ def flow():
             url = "https://show.bilibili.com/api/ticket/buyer/list?is_default&projectId=" + str(
                 config["project_id"])
             response = session.request("GET", url, timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 for i in range(0, config["count"]):
                     data["data"]["list"][i]["isBuyerInfoVerified"] = True
                     data["data"]["list"][i]["isBuyerValid"] = True
@@ -199,11 +199,11 @@ def flow():
                                        url,
                                        data=payload,
                                        timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 config["order_token"] = data["data"]["token"]
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -220,11 +220,11 @@ def flow():
                 "order_token"] + "&timestamp=" + str(
                     int(round(time.time() * 1000)))
             response = session.request("GET", url, timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 config["order_id"] = data["data"]["order_id"]
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -240,11 +240,11 @@ def flow():
                 "order_id"] + "&timestamp=" + str(
                     int(round(time.time() * 1000)))
             response = session.request("GET", url, timeout=config["timeout"])
-            session.headers.update(response.headers)
-            session.cookies.update(response.cookies)
             status(response)
             try:
                 data = response.json()
+                session.headers.update(response.headers)
+                session.cookies.update(response.cookies)
                 if data["data"]["status_name"] == "待支付":
                     exit()
             except Timeout:
