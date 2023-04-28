@@ -63,7 +63,6 @@ def status(response):
 def flow():
     # 0 登录
     session = requests.session()
-
     session.headers.update(config["headers"])
     session.get("https://show.bilibili.com/platform/home.html")
     cookie = requests.cookies.RequestsCookieJar()    # type: ignore
@@ -84,6 +83,7 @@ def flow():
                 config["project_id"])
             response = session.request("GET", url, timeout=config["timeout"])
             status(response)
+
             try:
                 data = response.json()
                 session.headers.update(response.headers)
@@ -99,7 +99,6 @@ def flow():
             except Exception as e:
                 print(e)
                 continue
-
         elif globalStep == 1:
             # 2 Token获取
             # 需要 count project_id screen_id sku_id
