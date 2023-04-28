@@ -46,17 +46,18 @@ def initConfig():
 # 状态
 def status(response):
     global globalStep
-    msg = response.json()
-    if len(msg["msg"]) == 0:
-        print("成功\n")
-        globalStep += 1
-        with open("./config.json", "w") as f:
-            json.dump(config, f, indent=2)
+    if response:
+        msg = response.json()
+        if len(msg["msg"]) == 0:
+            print("成功\n")
+            globalStep += 1
+            with open("./config.json", "w") as f:
+                json.dump(config, f, indent=2)
+        else:
+            print("失败! Status Code" + " " + msg["msg"])
+            print(response.json())
     else:
-        print("失败! Status Code" + " " + str(response.status_code) + " " +
-              msg["msg"])
-        print(response.json())
-        raise Exception(msg["msg"])
+        print("失败!" + " " + str(response.text))
 
 
 # 任务流
@@ -86,8 +87,6 @@ def flow():
 
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 config["screen_id"] = int(
                     data["data"]["screen_list"][config["screennum"] - 1]["id"])
                 config["sku_id"] = int(data["data"]["screen_list"][
@@ -120,8 +119,6 @@ def flow():
             status(response)
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 config["token"] = data["data"]["token"]
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -140,8 +137,6 @@ def flow():
             status(response)
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 config["pay_money"] = int(data["data"]["pay_money"])
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -160,8 +155,6 @@ def flow():
             status(response)
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 for i in range(0, config["count"]):
                     data["data"]["list"][i]["isBuyerInfoVerified"] = True
                     data["data"]["list"][i]["isBuyerValid"] = True
@@ -201,8 +194,6 @@ def flow():
             status(response)
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 config["order_token"] = data["data"]["token"]
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -222,8 +213,6 @@ def flow():
             status(response)
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 config["order_id"] = data["data"]["order_id"]
             except Timeout:
                 print("请求超时, 可能是服务器炸了, 也有可能是你网络不好\n")
@@ -242,8 +231,6 @@ def flow():
             status(response)
             try:
                 data = response.json()
-                session.headers.update(response.headers)
-                session.cookies.update(response.cookies)
                 if data["data"]["status_name"] == "待支付":
                     exit()
             except Timeout:
