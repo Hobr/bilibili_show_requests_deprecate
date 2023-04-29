@@ -12,7 +12,8 @@
     "fullToken": "",
     "firToken": "",
     "secToken": "",
-    "cookie": []
+    "cookie": [],
+    "version": "1.0"
   },
 
   "api": {

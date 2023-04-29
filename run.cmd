@@ -1,2 +1,2 @@
 .\.venv\Scripts\activate.bat
-python script.py
+python init.py
