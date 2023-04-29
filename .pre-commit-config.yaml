@@ -9,3 +9,10 @@ repos:
     rev: v0.33.0
     hooks:
     -   id: yapf
+- repo: local
+  hooks:
+    - id: pylint
+      name: pylint
+      entry: pylint
+      language: system
+      types: [python]
