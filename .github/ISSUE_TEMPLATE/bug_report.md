@@ -1,38 +1,31 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+name: Bug报告
+about: 创建一个报告来帮助我们改进
+title: '[BUG][Init/Api/Browser模式]标题'
+labels: '错误'
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**描述情况**
+对错误的清晰简洁的描述
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**步骤复现**
+重现行为的步骤：
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+1. 打开xxx
+2. 点击
+3. 出现问题
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**预期结果**
+对你期望发生的事情的清晰简洁的描述。
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**截图/文字日志**
+如果可以，添加屏幕截图以帮助解释您的问题。
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**运行环境:**
 
-**Additional context**
-Add any other context about the problem here.
+- Python版本 [例如 3.8.5/release下载的附带python运行环境]
+- Chrome版本 [例如 112.0.5615.138]
+- 脚本版本 [例如 1.0]
+- 操作系统 [例如 Windows 11 22H2]
