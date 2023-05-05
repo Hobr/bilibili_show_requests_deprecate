@@ -14,8 +14,6 @@ Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出
 
 解压后进入目录, 点击**run.cmd**运行, 根据提示输入信息即可
 
-如果要购买多张票, 必须提前设置好相应数量的购票人信息, 不能多不能少
-
 ### 命令行
 
 ```bash
@@ -47,16 +45,16 @@ python init.py
   - timestop 操作间隔时间, 单位为秒, 避免过快请求被风控
   - step 当前执行进度
   - url 目标商品详情页地址, 用于获取project_id
-  - buyList 购票人列表
-    - name 购票人姓名, 需提前在会员购内绑定信息
+  - buyerList 购票人
   - screennum 横向场次序号, 从0开始
   - skunum 横向价格序号, 从0开始
+  - auth 实名认证, 0为不实名, 1为实名
+  - type 商品类型, 0为常规, 1为选座, 2为纸质票(选择收货人)
   - fullToken 完整的token, 由firToken和secToken拼接而成
-  - firToken 时间戳token, 初次运行时通过api第一步获取, 以后通过studyUrl获取
+  - firToken 时间戳token, 通过api第一步获取
   - secToken 商品token
   - cookie 用户cookie
   - version 脚本版本
-  - studyUrl 获取时间戳token的样板商品地址
 
 - api
   - project_id 商品id, 对应url里的'id'
@@ -74,3 +72,10 @@ python init.py
 ## API文档
 
 记录一下会员购下单api的参数, 以便后续更新
+
+参考商品:
+
+- 选座+实名 <https://show.bilibili.com/platform/detail.html?id=71951>
+- 非实名 <https://show.bilibili.com/platform/detail.html?id=72099>
+- 纸质票+非实名 <https://show.bilibili.com/platform/detail.html?id=72271>
+- 选择日期+非实名 <https://show.bilibili.com/platform/detail.html?id=71519>

@@ -7,15 +7,16 @@
     "timestop": 0,
     "step": 0,
     "url": "",
-    "buyList": [],
+    "buyerList": [],
     "screennum": 0,
     "skunum": 0,
+    "auth": 0,
+    "type": 0,
     "fullToken": "",
     "firToken": "",
     "secToken": "",
     "cookie": [],
-    "version": "1.0",
-    "studyUrl": "https://show.bilibili.com/platform/detail.html?id=70163&"
+    "version": "1.0"
   },
 
   "api": {
