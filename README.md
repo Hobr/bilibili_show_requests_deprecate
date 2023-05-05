@@ -19,6 +19,7 @@ Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出
 ```bash
 git clone https://github.com/Hobr/Bilibili_show_ticket_order.git
 cd Bilibili_show_ticket_order
+pip install -r requirements.txt
 python init.py
 ```
 
