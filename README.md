@@ -72,11 +72,4 @@ python init.py
 
 ## API文档
 
-记录一下会员购下单api的参数, 以便后续更新
-
-参考商品:
-
-- 选座+实名 <https://show.bilibili.com/platform/detail.html?id=71951>
-- 非实名 <https://show.bilibili.com/platform/detail.html?id=72099>
-- 纸质票+非实名 <https://show.bilibili.com/platform/detail.html?id=72271>
-- 选择日期+非实名 <https://show.bilibili.com/platform/detail.html?id=71519>
+右转[API文档](API.md)
