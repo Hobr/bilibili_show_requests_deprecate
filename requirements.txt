@@ -8,3 +8,4 @@ selenium==4.9.0
 virtualenv==20.22.0
 yapf==0.33.0
 requests==2.29.0
+autopep8==2.0.2
