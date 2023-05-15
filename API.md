@@ -4,11 +4,11 @@
 
 参考:
 
-- 实名 <https://show.bilibili.com/platform/detail.html?id=71951>
-- 选座+实名 <https://show.bilibili.com/platform/detail.html?id=71951>
-- 非实名 <https://show.bilibili.com/platform/detail.html?id=72099>
-- 纸质票+非实名 <https://show.bilibili.com/platform/detail.html?id=72271>
-- 选择日期+非实名 <https://show.bilibili.com/platform/detail.html?id=71519>
+- 实名 <https://show.bilibili.com/platform/detail.html?id=72512>
+- 选座+实名 <https://show.bilibili.com/platform/detail.html?id=71822>
+- 非实名 <https://show.bilibili.com/platform/detail.html?id=72535>
+- 纸质票+非实名 <https://show.bilibili.com/platform/detail.html?id=72273>
+- 选择日期+非实名 <https://show.bilibili.com/platform/detail.html?id=72275>
 
 ## 返回值的基本构成
 
@@ -20,8 +20,6 @@
   "data": {}// 返回数据
 }
 ```
-
-下文将不重复解释以上内容
 
 ## 项目完整信息
 
