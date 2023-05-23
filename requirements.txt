@@ -1,11 +1,11 @@
 flake8==6.0.0
 isort==5.12.0
-pre-commit==3.2.2
+pre-commit==3.3.1
 pyflakes==3.0.1
-pylint==2.17.3
+pylint==2.17.4
 PySocks==1.7.1
-selenium==4.9.0
-virtualenv==20.22.0
+selenium==4.9.1
+virtualenv==20.23.0
 yapf==0.33.0
-requests==2.31.0
+requests==2.30.0
 autopep8==2.0.2
