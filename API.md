@@ -4,11 +4,11 @@
 
 参考:
 
-- 实名 <https://show.bilibili.com/platform/detail.html?id=72512>
-- 选座+实名 <https://show.bilibili.com/platform/detail.html?id=71822>
-- 非实名 <https://show.bilibili.com/platform/detail.html?id=72535>
-- 纸质票+非实名 <https://show.bilibili.com/platform/detail.html?id=72273>
-- 选择日期+非实名 <https://show.bilibili.com/platform/detail.html?id=72275>
+- 实名 <https://show.bilibili.com/platform/detail.html?id=73422>
+- 选座+实名 <>
+- 非实名 <https://show.bilibili.com/platform/detail.html?id=73404>
+- 纸质票+非实名 <>
+- 选择日期+非实名 <https://show.bilibili.com/platform/detail.html?id=72287>
 
 ## 返回值的基本构成
 
