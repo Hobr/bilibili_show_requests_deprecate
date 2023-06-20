@@ -14,15 +14,15 @@ flake8==6.0.0
 h11==0.14.0
 identify==2.5.24
 idna==3.4
-importlib-metadata==6.6.0
+importlib-metadata==6.7.0
 isort==5.12.0
 lazy-object-proxy==1.9.0
 mccabe==0.7.0
 nodeenv==1.8.0
 outcome==1.2.0
 pipupgrade==1.12.0
-platformdirs==3.5.3
-pre-commit==3.3.2
+platformdirs==3.6.0
+pre-commit==3.3.3
 pycodestyle==2.10.0
 pyflakes==3.0.1
 pylint==2.17.4
@@ -37,7 +37,7 @@ tomlkit==0.11.8
 trio==0.22.0
 trio-websocket==0.10.3
 urllib3==2.0.3
-virtualenv==20.23.0
+virtualenv==20.23.1
 wrapt==1.15.0
 wsproto==1.2.0
 yapf==0.40.0
