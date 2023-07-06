@@ -1,5 +1,7 @@
 # Bilibili_show_ticket_order
 
+> 懒得做了, api买票的大概思路都在这......selenium版左转[Hobr/cp_deprecate](https://github.com/Hobr/cp_deprecate)
+
 Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适用于购买实名制电子票, 暂无适配其他票种的计划
 
 本脚本仅供学习交流使用, 不得用于商业用途, 如有侵权请联系删除
@@ -7,13 +9,8 @@ Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适
 ## 使用
 
 ```bash
-git clone https://github.com/Hobr/Bilibili_show_ticket_order.git
-cd Bilibili_show_ticket_order
 pip install -r requirements.txt
-# 抢票模式
 python api.py
-# 蹲票模式
-python browser.py
 ```
 
 ## 模式
@@ -22,11 +19,6 @@ python browser.py
   - 使用requests, 调用B站的API接口抢票
   - 效率更高, 适合开票时抢票
   - 短时间内抢不到的话有可能被风控BanIP
-
-- 浏览器模式
-  - 使用selenium, 模拟浏览器操作抢票
-  - 更稳定, 适合长期蹲退票
-  - 速度较慢, 是一款高端连点器, 且需要浏览器driver
 
 ## 配置说明
 
