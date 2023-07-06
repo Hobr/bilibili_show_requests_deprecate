@@ -1,8 +1,6 @@
 # Bilibili_show_ticket_order
 
-> 目前仍未达到运行要求, 在第一个版本发布前不建议使用......
-
-Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出
+Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适用于购买实名制电子票, 暂无适配其他票种的计划
 
 本脚本仅供学习交流使用, 不得用于商业用途, 如有侵权请联系删除
 
@@ -10,7 +8,7 @@ Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出
 
 ### 傻瓜式
 
-请先安装[Python](https://www.python.org/downloads/)到目录**D:\Program Files\Python**, 除非你打算自己设置cookie, 然后安装[Chrome浏览器](https://www.google.com/chrome/), 然后在[Release页面](https://github.com/Hobr/Bilibili_show_ticket_order/releases)下载预载了运行环境的压缩包
+安装[Chrome浏览器](https://www.google.com/chrome/), 然后在[Release页面](https://github.com/Hobr/Bilibili_show_ticket_order/releases)下载预载运行环境的压缩包
 
 解压后进入目录, 点击**run.cmd**运行, 根据提示输入信息即可
 
@@ -49,13 +47,10 @@ python init.py
   - buyerList 购票人
   - screennum 横向场次序号, 从0开始
   - skunum 横向价格序号, 从0开始
-  - auth 实名认证, 0为不实名, 1为实名
-  - type 商品类型, 0为常规, 1为选座, 2为纸质票(选择收货人)
   - fullToken 完整的token, 由firToken和secToken拼接而成
   - firToken 时间戳token, 通过api第一步获取
   - secToken 商品token
   - cookie 用户cookie
-  - version 脚本版本
 
 - api
   - project_id 商品id, 对应url里的'id'
