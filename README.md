@@ -1,6 +1,6 @@
 # Bilibili_show_ticket_order
 
-> 懒得做了, api买票的大概思路都在这......selenium版左转[Hobr/cp_deprecate](https://github.com/Hobr/cp_deprecate)
+> 懒得做了, api买票的大概思路都在这......selenium版左转[Hobr/cp_deprecate](https://github.com/Hobr/bilibili_show_selenium_deprecate)
 
 Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适用于购买实名制电子票, 暂无适配其他票种的计划
 
