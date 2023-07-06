@@ -1,7 +1,7 @@
 ---
 name: 功能建议
 about: 为这个项目提出一个想法
-title: '[提议][Init/Api/Browser模式]标题'
+title: '[建议]标题'
 labels: '提议'
 assignees: ''
 

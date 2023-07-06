@@ -1,7 +1,7 @@
 ---
 name: Bug报告
 about: 创建一个报告来帮助我们改进
-title: '[BUG][Init/Api/Browser模式]标题'
+title: '[BUG]标题'
 labels: '错误'
 assignees: ''
 

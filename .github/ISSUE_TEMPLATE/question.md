@@ -1,7 +1,7 @@
 ---
 name: 问题求助
 about: 遇到了困难，需要帮助
-title: '[求助][Init/Api/Browser模式]标题'
+title: '[求助]标题'
 labels: '求助'
 assignees: ''
 
