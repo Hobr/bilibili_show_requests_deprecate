@@ -10,7 +10,10 @@ Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适
 git clone https://github.com/Hobr/Bilibili_show_ticket_order.git
 cd Bilibili_show_ticket_order
 pip install -r requirements.txt
-python script.py
+# 抢票模式
+python api.py
+# 蹲票模式
+python browser.py
 ```
 
 ## 模式
@@ -18,7 +21,6 @@ python script.py
 - API模式
   - 使用requests, 调用B站的API接口抢票
   - 效率更高, 适合开票时抢票
-  - B站更新API后可能失效
   - 短时间内抢不到的话有可能被风控BanIP
 
 - 浏览器模式
@@ -56,7 +58,3 @@ python script.py
 
 - browser
   - headless 是否无头模式, 0为否, 1为是
-
-## API文档
-
-右转[API文档](API.md)

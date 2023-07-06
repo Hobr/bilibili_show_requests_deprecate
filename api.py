@@ -1,14 +1,16 @@
 # -*- coding: UTF-8 -*-
 import json
 import os
-import random
 import time
 from shutil import copyfile
 
 import requests
+from requests.exceptions import Timeout
 
 with open("./config.json", "r") as f:
     config = json.load(f)
+
+session = requests.session()
 
 
 # 初始化
@@ -74,10 +76,21 @@ def orderInfo():
         'Sec-Fetch-Mode': 'cors',
         'Sec-Fetch-Dest': 'empty'
     }
-    response = requests.request("GET",
-                                url,
-                                headers=headers,
-                                timeout=config["timeout"])
+    session.headers.update(headers)
+    response = session.request("GET",
+                               url,
+                               headers=headers,
+                               timeout=config["timeout"])
+
+    data = response.json()
+    config["screen_id"] = int(data["data"]["screen_list"][config["screennum"] -
+                                                          1]["id"])
+    config["sku_id"] = int(
+        data["data"]["screen_list"][config["screennum"] -
+                                    1]["ticket_list"][config["skunum"] -
+                                                      1]["id"])
+    config["pay_money"] = int(data["data"]["screen_list"][config["screen_id"]]
+                              ["ticket_list"][config["sku_id"]]["price"])
 
     # 获取购票人
     url = "https://show.bilibili.com/api/ticket/buyer/list?is_default&projectId=71931"
@@ -96,10 +109,16 @@ def orderInfo():
         'Sec-Fetch-Dest': 'empty'
     }
 
-    response = requests.request("GET",
-                                url,
-                                headers=headers,
-                                timeout=config["timeout"])
+    response = session.request("GET",
+                               url,
+                               headers=headers,
+                               timeout=config["timeout"])
+    data = response.json()
+
+    for i in range(0, config["count"]):
+        data["data"]["list"][i]["isBuyerInfoVerified"] = True
+        data["data"]["list"][i]["isBuyerValid"] = True
+        config["buyerList"] = data["data"]["list"]
 
 
 def token():
@@ -123,14 +142,17 @@ def token():
         'Sec-Fetch-Dest': 'empty'
     }
 
-    response = requests.request("POST",
-                                url,
-                                headers=headers,
-                                data=payload,
-                                timeout=config["timeout"])
+    response = session.request("POST",
+                               url,
+                               headers=headers,
+                               data=payload,
+                               timeout=config["timeout"])
+    data = response.json()
+    config["token"] = data["data"]["token"]
 
 
 def orderCreate():
+    # 创建订单
     url = "https://show.bilibili.com/api/ticket/order/createV2?project_id=71931"
 
     payload = {
@@ -138,7 +160,7 @@ def orderCreate():
         "count": config["count"],
         "deviceId": "",
         "order_type": 1,
-        "pay_money": config["pay_money"],
+        "pay_money": config["pay_money"] * config["count"],
         "project_id": config["project_id"],
         "screen_id": config["screen_id"],
         "sku_id": config["sku_id"],
@@ -163,15 +185,26 @@ def orderCreate():
         'Sec-Fetch-Dest': 'empty'
     }
 
-    response = requests.request("POST",
-                                url,
-                                headers=headers,
-                                data=payload,
-                                timeout=config["timeout"])
+    response = session.request("POST",
+                               url,
+                               headers=headers,
+                               data=payload,
+                               timeout=config["timeout"])
+    data = response.json()
+    if data["errno"] == 0:
+        print("已成功抢到票, 请尽快支付 https://show.bilibili.com/orderlist")
+        exit(0)
 
 
 def flow():
-    pass
+    session.get("https://show.bilibili.com/platform/home.html")
+    cookie = requests.cookies.RequestsCookieJar()    # type: ignore
+    for i in config["cookie"]:
+        cookie.set(domain=i["domain"],
+                   name=i["name"],
+                   value=i["value"],
+                   path=i["path"])
+    session.cookies.update(cookie)
 
 
 # 线程
