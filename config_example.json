@@ -10,13 +10,10 @@
     "buyerList": [],
     "screennum": 0,
     "skunum": 0,
-    "auth": 0,
-    "type": 0,
     "fullToken": "",
     "firToken": "",
     "secToken": "",
-    "cookie": [],
-    "version": "1.0"
+    "cookie": []
   },
 
   "api": {

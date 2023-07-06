@@ -6,19 +6,11 @@ Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适
 
 ## 使用
 
-### 傻瓜式
-
-安装[Chrome浏览器](https://www.google.com/chrome/), 然后在[Release页面](https://github.com/Hobr/Bilibili_show_ticket_order/releases)下载预载运行环境的压缩包
-
-解压后进入目录, 点击**run.cmd**运行, 根据提示输入信息即可
-
-### 命令行
-
 ```bash
 git clone https://github.com/Hobr/Bilibili_show_ticket_order.git
 cd Bilibili_show_ticket_order
 pip install -r requirements.txt
-python init.py
+python script.py
 ```
 
 ## 模式
