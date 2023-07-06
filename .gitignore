@@ -1,9 +1,7 @@
 .venv
 .vscode
-config.json
 api_temp.py
 browser_temp.py
-test*.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
