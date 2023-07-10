@@ -1,10 +1,6 @@
 # Bilibili_show_ticket_order
 
-> 懒得做了, api买票的大概思路都在这......selenium版左转[Hobr/cp_deprecate](https://github.com/Hobr/bilibili_show_selenium_deprecate)
-
-Bilibili会员购抢票助手, 通过B站接口抢购目标漫展/演出, 仅适用于购买实名制电子票, 暂无适配其他票种的计划
-
-本脚本仅供学习交流使用, 不得用于商业用途, 如有侵权请联系删除
+> 左转[fengx1a0/Bilibili_show_ticket_auto_order](https://github.com/fengx1a0/Bilibili_show_ticket_auto_order)
 
 ## 使用
 
