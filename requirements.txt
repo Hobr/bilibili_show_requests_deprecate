@@ -36,7 +36,7 @@ tomli==2.0.1
 tomlkit==0.11.8
 trio==0.22.1
 trio-websocket==0.10.3
-urllib3==2.0.3
+urllib3==2.0.6
 virtualenv==20.23.1
 wrapt==1.15.0
 wsproto==1.2.0
